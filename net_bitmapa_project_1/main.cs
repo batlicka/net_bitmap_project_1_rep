@@ -8,6 +8,7 @@ namespace net_bitmapa_project_1
     //added on branch VojtaVagunda
     class main
     {
+        //commet local
         static void Main(string[] args)
         {
             String fileName = "d:\\dokumenty\\Vojta\\UTB\\5_LET_IT\\multimedia\\OneDrive_2020-02-12\\Zpracovani rastrovych obrazku formatu BMP & PCX\\_Obrazky_zdroj\\BMP\\jednoduchy_barevny_24.bmp";
