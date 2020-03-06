@@ -11,7 +11,7 @@ namespace net_bitmapa_project_1
         //commet local
         static void Main(string[] args)
         {
-            String fileName = "d:\\dokumenty\\Vojta\\UTB\\5_LET_IT\\multimedia\\OneDrive_2020-02-12\\Zpracovani rastrovych obrazku formatu BMP & PCX\\_Obrazky_zdroj\\BMP\\jednoduchy_barevny_24.bmp";
+            String fileName = "d:\\dokumenty\\Vojta\\UTB\\5_LET_IT\\multimedia\\OneDrive_2020-02-12\\Zpracovani rastrovych obrazku formatu BMP & PCX\\_Obrazky_zdroj\\BMP\\testovaci_1_width10.bmp";//testovaci_1_width10
 
             String fileNameResult = "d:\\dokumenty\\Vojta\\UTB\\5_LET_IT\\multimedia\\OneDrive_2020-02-12\\Zpracovani rastrovych obrazku formatu BMP & PCX\\_Obrazky_zdroj\\BMP\\changed\\jednoduchy_barevny_24_changed.bmp";
            
@@ -21,9 +21,16 @@ namespace net_bitmapa_project_1
             buff = new byte[(int)numBytes];
             buff = br.ReadBytes((int)numBytes);*/
 
-            BitMap ArrayPic = new BitMap(fileName);
+            BitMap Pic = new BitMap(fileName);
+            BitMap PicChanged = new BitMap(fileName);
+            Pic.pixelArr[0, 0].R = 0;
+            Pic.pixelArr[0, 0].B = 0;
+            Pic.pixelArr[0, 0].G = 255;
 
-            ArrayPic.SavePictureToFile(fileNameResult);
+            Pic.pixelArr[4, 40].R = 0;
+            Pic.pixelArr[4, 40].B = 0;
+            Pic.pixelArr[4, 40].G = 255;
+            Pic.SavePictureToFile(fileNameResult);
             //pixely ze řádku jsou vždy ukončené zarovnávacím počtem byte, tak aby byl počet byte v řádku dělitelný 4 bez zbytku
             
 

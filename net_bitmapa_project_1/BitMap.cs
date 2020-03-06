@@ -51,10 +51,56 @@ namespace net_bitmapa_project_1
             BM_ByteColorUsed = (uint)(streamBits.ReadInt32());    //4B-biClrUsed
             BM_NeededByteToColor = (uint)(streamBits.ReadInt32());    //4B-biClrImportant
 
+            //RowLength = Convert.ToUInt32(Math.Ceiling(BM_Width * BM_BitsPerPixel / 32.0) * 4);
+            //RowBitAlignment = (RowLength * 8) - (BM_Width * BM_BitsPerPixel);
+            //RowByteAlignment = RowBitAlignment / 8;
+            ////loading of picture 1 bit
+            ////loading of color palette
+            //SizeOfPallet = BM_Offset - HeadersLength;
+            //ColorPalette = new Color[SizeOfPallet / 4];//4 because every color is expressed by 4 BYTES               
+            //for (int col = 0; col < (SizeOfPallet / 4); col++)
+            //{
+            //    TempIndex = HeadersLength + col * 4 + 0;
+            //    blue = buff[TempIndex];
+
+            //    green = buff[HeadersLength + col * 4 + 1];
+
+            //    TempIndex3 = HeadersLength + col * 4 + 2;
+            //    red = buff[TempIndex3];
+
+            //    ColorPalette[col] = Color.FromArgb(red, green, blue);
+            //}
+
+            ////loading of pixel array 1BIT picture, true = white, false=black
+            //BM_OffsetMoved = BM_Offset;
+            //pixelIndexArr = new uint[BM_Height, BM_Width];//pole pixelů, jednotlivé složky plole mají v sobě uloženo buď 0 or 1, indexi do barevné palety
+            ////nepouzivano //uint NumByteForRow = (uint)Math.Ceiling(BM_Width / 8.0);
+            //BitArray bits;
+            //byte[] arr = new byte[RowLength];
+            ////byte[] OneBytearr=
+            //for (int r = 0; r < BM_Height; r++)
+            //{
+            //    Array.Copy(buff, BM_OffsetMoved, arr, 0, RowLength);                
+            //    int indexArr = 0;                
+            //    //bits = new BitArray(arr[0]);
+            //    for (int col = 0; col < BM_Width; col++)
+            //    {
+            //        bits = new BitArray(new int[] { arr[indexArr] });
+            //        for (int indexB = 0; indexB <8; indexB++) {                        
+            //            pixelIndexArr[r, col] = Convert.ToUInt32(bits[8-indexB-1]);
+            //            col = col + 1;
+            //        }
+            //        indexArr++;
+            //    }
+
+            //    //after first iteration we have to change Offset               
+            //    BM_OffsetMoved = BM_OffsetMoved + RowLength;
+            //}
+
             //loading of fixel array 24 bit picture
             RowLength = Convert.ToUInt32(Math.Ceiling(BM_Width * BM_BitsPerPixel / 32.0) * 4);
-            RowBitAlignment = (RowLength*8) - (BM_Width * BM_BitsPerPixel);
-            RowByteAlignment = RowBitAlignment / 8;
+            RowBitAlignment = (RowLength*8) - (BM_Width * BM_BitsPerPixel); //number of bits used for aligment of row
+            RowByteAlignment = RowBitAlignment / 8;                         //number of byts used for aligment of row
             pixelArr = new VColor[BM_Height,BM_Width];
 
             BM_OffsetMoved = BM_Offset;                      
@@ -121,13 +167,16 @@ namespace net_bitmapa_project_1
         public long TempIndex2;
         public long TempIndex3;
         public byte[] buff;
+        public Color[] ColorPalette; 
         public const uint HeadersLength = 54; //BitmapFileHeader + delka BITMAPINFOHEADER
         public uint RowLength { get; private set; }
         public uint RowBitAlignment { get; private set; }
         public uint RowByteAlignment { get; private set; }
         public uint BM_OffsetMoved { get; private set; }
+        
         public uint SizeOfPallet { get; private set; }
         public VColor[,] pixelArr;
+        public uint[,] pixelIndexArr;
 
         public Int32 red = 0;
         public Int32 green = 0;
@@ -164,7 +213,7 @@ namespace net_bitmapa_project_1
 }
 
 
-
+//https://docs.microsoft.com/cs-cz/dotnet/api/system.collections.bitarray?view=netframework-4.8
 /*
  * 
  * https://www.root.cz/clanky/graficky-format-bmp-pouzivany-a-pritom-neoblibeny/
