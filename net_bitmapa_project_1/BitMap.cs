@@ -122,6 +122,8 @@ namespace net_bitmapa_project_1
                 //after first iteration we have to change Offset               
                 BM_OffsetMoved = Convert.ToUInt32(TempIndex3) + RowByteAlignment+1;
             }
+            //uvolnění zdrojů
+            fs.Close();
         }
         public void SavepixelArrToBuff()
         {
