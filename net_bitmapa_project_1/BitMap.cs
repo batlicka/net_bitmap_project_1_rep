@@ -51,53 +51,52 @@ namespace net_bitmapa_project_1
             BM_ByteColorUsed = (uint)(streamBits.ReadInt32());    //4B-biClrUsed
             BM_NeededByteToColor = (uint)(streamBits.ReadInt32());    //4B-biClrImportant
 
-            //RowLength = Convert.ToUInt32(Math.Ceiling(BM_Width * BM_BitsPerPixel / 32.0) * 4);
-            //RowBitAlignment = (RowLength * 8) - (BM_Width * BM_BitsPerPixel);
-            //RowByteAlignment = RowBitAlignment / 8;
-            ////loading of picture 1 bit
-            ////loading of color palette
-            //SizeOfPallet = BM_Offset - HeadersLength;
-            //ColorPalette = new Color[SizeOfPallet / 4];//4 because every color is expressed by 4 BYTES               
-            //for (int col = 0; col < (SizeOfPallet / 4); col++)
-            //{
-            //    TempIndex = HeadersLength + col * 4 + 0;
-            //    blue = buff[TempIndex];
+            RowLength = Convert.ToUInt32(Math.Ceiling(BM_Width * BM_BitsPerPixel / 32.0) * 4);
+            RowBitAlignment = (RowLength * 8) - (BM_Width * BM_BitsPerPixel);
+            RowByteAlignment = RowBitAlignment / 8;
+            
+            //----------------------------loading of picture 1 bit
 
-            //    green = buff[HeadersLength + col * 4 + 1];
+            //loading of color palette 1 bit picture
+            SizeOfPallet = BM_Offset - HeadersLength;
+            ColorPalette = new Color[SizeOfPallet / 4];//4 because every color is expressed by 4 BYTES               
+            for (int col = 0; col < (SizeOfPallet / 4); col++)
+            {
+                TempIndex = HeadersLength + col * 4 + 0;
+                blue = buff[TempIndex];
 
-            //    TempIndex3 = HeadersLength + col * 4 + 2;
-            //    red = buff[TempIndex3];
+                green = buff[HeadersLength + col * 4 + 1];
 
-            //    ColorPalette[col] = Color.FromArgb(red, green, blue);
-            //}
+                TempIndex3 = HeadersLength + col * 4 + 2;
+                red = buff[TempIndex3];
 
-            ////loading of pixel array 1BIT picture, true = white, false=black
-            //BM_OffsetMoved = BM_Offset;
-            //pixelIndexArr = new uint[BM_Height, BM_Width];//pole pixelů, jednotlivé složky plole mají v sobě uloženo buď 0 or 1, indexi do barevné palety
-            ////nepouzivano //uint NumByteForRow = (uint)Math.Ceiling(BM_Width / 8.0);
-            //BitArray bits;
-            //byte[] arr = new byte[RowLength];
-            ////byte[] OneBytearr=
-            //for (int r = 0; r < BM_Height; r++)
-            //{
-            //    Array.Copy(buff, BM_OffsetMoved, arr, 0, RowLength);                
-            //    int indexArr = 0;                
-            //    //bits = new BitArray(arr[0]);
-            //    for (int col = 0; col < BM_Width; col++)
-            //    {
-            //        bits = new BitArray(new int[] { arr[indexArr] });
-            //        for (int indexB = 0; indexB <8; indexB++) {                        
-            //            pixelIndexArr[r, col] = Convert.ToUInt32(bits[8-indexB-1]);
-            //            col = col + 1;
-            //        }
-            //        indexArr++;
-            //    }
+                ColorPalette[col] = Color.FromArgb(red, green, blue);
+            }
 
-            //    //after first iteration we have to change Offset               
-            //    BM_OffsetMoved = BM_OffsetMoved + RowLength;
-            //}
+            //loading of pixel array 1BIT picture, true = white, false=black
+            BM_OffsetMoved = BM_Offset;
+            pixelIndexArr = new uint[BM_Height, BM_Width];//pole pixelů, jednotlivé složky plole mají v sobě uloženo buď 0 or 1, indexi do barevné palety            
+            BitArray bits;
+            byte[] arr = new byte[RowLength];            
+            for (int r = 0; r < BM_Height; r++)
+            {
+                Array.Copy(buff, BM_OffsetMoved, arr, 0, RowLength);
+                int indexArrayOffest = 1;
+                bits = new BitArray(arr);
+                for (int col = 0; col < BM_Width; col++)
+                {   //if je kvůli posunu na další osmici bitů po přečtení první osmice bitů              
+                    if (    ((col % 8) == 0)    && col!=0) {
+                        indexArrayOffest++;
+                    }
+                    int Index = indexArrayOffest * 8 - col - 1 + ((indexArrayOffest - 1) * 8);
+                    pixelIndexArr[r, col] = Convert.ToUInt32(bits[Index]);                    
+                }
+                //after first iteration we have to change Offset                 
+                BM_OffsetMoved = BM_OffsetMoved + RowLength;
+            }
+            
 
-            //loading of fixel array 24 bit picture
+            //------------------------------loading of fixel array 24 bit picture
             RowLength = Convert.ToUInt32(Math.Ceiling(BM_Width * BM_BitsPerPixel / 32.0) * 4);
             RowBitAlignment = (RowLength*8) - (BM_Width * BM_BitsPerPixel); //number of bits used for aligment of row
             RowByteAlignment = RowBitAlignment / 8;                         //number of byts used for aligment of row

@@ -11,7 +11,7 @@ namespace net_bitmapa_project_1
         //commet local
         static void Main(string[] args)
         {
-            String fileName = "d:\\dokumenty\\Vojta\\UTB\\5_LET_IT\\multimedia\\OneDrive_2020-02-12\\Zpracovani rastrovych obrazku formatu BMP & PCX\\_Obrazky_zdroj\\BMP\\jednoduchy_barevny_24.bmp";//testovaci_1_width10
+            String fileName = "d:\\dokumenty\\Vojta\\UTB\\5_LET_IT\\multimedia\\OneDrive_2020-02-12\\Zpracovani rastrovych obrazku formatu BMP & PCX\\_Obrazky_zdroj\\BMP\\testovaci_1_width10.bmp";//testovaci_1_width10
 
             String fileNameResult = "d:\\dokumenty\\Vojta\\UTB\\5_LET_IT\\multimedia\\OneDrive_2020-02-12\\Zpracovani rastrovych obrazku formatu BMP & PCX\\_Obrazky_zdroj\\BMP\\changed\\jednoduchy_barevny_24_changed.bmp";
            
