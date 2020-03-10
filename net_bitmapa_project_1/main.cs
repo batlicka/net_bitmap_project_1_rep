@@ -31,7 +31,7 @@ namespace net_bitmapa_project_1
             //Pic.pixelArr[4, 40].R = 0;
             //Pic.pixelArr[4, 40].B = 0;
             //Pic.pixelArr[4, 40].G = 255;
-            Pic.pixelIndexArr[31, 191] =0;
+            Pic.pixelIndexArr[31, 191] =255;
             Pic.SavePictureToFile(fileNameResult);
             //pixely ze řádku jsou vždy ukončené zarovnávacím počtem byte, tak aby byl počet byte v řádku dělitelný 4 bez zbytku
             
